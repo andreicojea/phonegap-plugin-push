@@ -130,7 +130,7 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
                 JSONObject localeObject = new JSONObject(value);
 
                 String localeKey = localeObject.getString(LOC_KEY);
-                
+
                 ArrayList<String> localeFormatData = new ArrayList<String>();
                 if (!localeObject.isNull(LOC_DATA)) {
                     String localeData = localeObject.getString(LOC_DATA);
@@ -314,15 +314,16 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         int requestCode = new Random().nextInt();
         PendingIntent contentIntent = PendingIntent.getActivity(this, requestCode, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        SharedPreferences prefs = context.getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);
+
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setWhen(System.currentTimeMillis())
-                        .setContentTitle(fromHtml(extras.getString(TITLE)))
-                        .setTicker(fromHtml(extras.getString(TITLE)))
+                        .setContentTitle(prefs.getString(TITLE, null))
+                        .setTicker(prefs.getString(TICKER, null))
                         .setContentIntent(contentIntent)
                         .setAutoCancel(true);
 
-        SharedPreferences prefs = context.getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);
         String localIcon = prefs.getString(ICON, null);
         String localIconColor = prefs.getString(ICON_COLOR, null);
         boolean soundOption = prefs.getBoolean(SOUND, true);
