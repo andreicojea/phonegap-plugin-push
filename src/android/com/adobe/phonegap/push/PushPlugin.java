@@ -116,7 +116,17 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
                         } catch (JSONException e) {
                             Log.d(LOG_TAG, "no iconColor option");
                         }
-                        
+                        try {
+                            editor.putString(TITLE, jo.getString(TITLE));
+                        } catch (JSONException e) {
+                            Log.d(LOG_TAG, "no title option");
+                        }
+                        try {
+                            editor.putString(TICKER, jo.getString(TICKER));
+                        } catch (JSONException e) {
+                            Log.d(LOG_TAG, "no ticker option");
+                        }
+
                         boolean clearBadge = jo.optBoolean(CLEAR_BADGE, false);
                         if (clearBadge) {
                             setApplicationIconBadgeNumber(getApplicationContext(), 0);
